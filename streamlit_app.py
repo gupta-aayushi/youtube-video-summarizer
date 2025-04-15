@@ -257,7 +257,7 @@ PROMPTS = {
 def generate_gemini_content(transcript, prompt_type):
     """Generate content using Gemini with error handling"""
     try:
-        model = genai.GenerativeModel("gemini-flash-2.0")
+        model = genai.GenerativeModel("gemini-2.0-flash")
         with st.spinner(f'Generating {prompt_type}...'):
             response = model.generate_content(
                 PROMPTS[prompt_type] + transcript,
