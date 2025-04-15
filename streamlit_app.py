@@ -76,7 +76,6 @@ def register_user(username, password):
         cursor.execute(
             "INSERT INTO users (username, password) VALUES (%s, %s)",
             (username, hash_password(password))
-        )
         conn.commit()
         st.success("Registration successful! Please login.")
         return True
@@ -129,8 +128,7 @@ def save_content(user_id, video_id, video_title, summary_type, content):
             """INSERT INTO summaries 
             (user_id, video_id, video_title, summary_type, content) 
             VALUES (%s, %s, %s, %s, %s)""",
-            (user_id, video_id, video_title, summary_type, content)
-        )
+            (user_id, video_id, video_title, summary_type, content))
         conn.commit()
         st.toast("✓ Content saved successfully!", icon="✅")
         return True
@@ -154,8 +152,7 @@ def get_saved_content(user_id):
         cursor.execute(
             """SELECT id, video_id, video_title, summary_type, content, created_at 
             FROM summaries WHERE user_id = %s ORDER BY created_at DESC""",
-            (user_id,)
-        )
+            (user_id,))
         return cursor.fetchall()
     except mysql.connector.Error as e:
         st.error(f"Failed to load content: {str(e)}")
@@ -176,8 +173,7 @@ def delete_saved_content(content_id, user_id):
         cursor = conn.cursor()
         cursor.execute(
             "DELETE FROM summaries WHERE id = %s AND user_id = %s",
-            (content_id, user_id)
-        )
+            (content_id, user_id))
         conn.commit()
         st.toast("🗑️ Content deleted successfully!", icon="✅")
         return cursor.rowcount > 0
@@ -243,13 +239,11 @@ PROMPTS = {
     2. Main Arguments
     3. Important Examples
     4. Conclusion\n\nTranscript:\n""",
-    
     "Follow-Up Exercises": """Create 10 practical exercises with:
     - Title
     - Objective
     - Steps
     - Expected Outcome\n\nBased on:\n""",
-    
     "MCQ Test": """Generate 10 MCQs with:
     - Clear question stem
     - 4 options (A-D)
@@ -263,8 +257,7 @@ def generate_gemini_content(transcript, prompt_type):
         with st.spinner(f'Generating {prompt_type}...'):
             response = model.generate_content(
                 PROMPTS[prompt_type] + transcript,
-                generation_config={"temperature": 0.7}
-            )
+                generation_config={"temperature": 0.7})
             return response.text
     except Exception as e:
         return f"⚠️ Generation failed: {str(e)}"
@@ -389,8 +382,7 @@ def render_generator():
         with col1:
             content_type = st.selectbox(
                 "Output Type",
-                ["Summary", "Follow-Up Exercises", "MCQ Test"]
-            )
+                ["Summary", "Follow-Up Exercises", "MCQ Test"])
         with col2:
             save_to_lib = st.checkbox("Save to Library", True)
         
@@ -423,8 +415,7 @@ def render_generator():
                             video_id=video_id, 
                             video_title=f"Video {video_id[:6]}...",  
                             summary_type=content_type, 
-                            content=generated_content
-                        )
+                            content=generated_content)
 
 def render_library():
     """Saved content browsing interface"""
