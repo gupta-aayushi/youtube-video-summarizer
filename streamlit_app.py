@@ -75,7 +75,7 @@ def register_user(username, password):
         cursor = conn.cursor()
         cursor.execute(
             "INSERT INTO users (username, password) VALUES (%s, %s)",
-            (username, hash_password(password))
+            (username, hash_password(password)))
         conn.commit()
         st.success("Registration successful! Please login.")
         return True
