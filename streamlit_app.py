@@ -270,34 +270,112 @@ def generate_gemini_content(transcript, prompt_type):
 # UI Components
 # =============================================
 def set_custom_css():
-    """Inject custom CSS for better styling"""
     st.markdown("""
     <style>
-    /* Main app background */
+    /* Main app styling */
     .stApp {
-        background: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)),
-                    url('https://images.unsplash.com/photo-1651575560910-b497ea4ec36f');
+        background-image: linear-gradient(rgba(255,255,255,0.1), rgba(255,255,255,0.1)), 
+                          url("https://images.unsplash.com/photo-1651575560910-b497ea4ec36f?q=80&w=2127&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
         background-size: cover;
         background-attachment: fixed;
+        background-position: center;
     }
     
-    /* Card styling */
+    /* Sidebar styling */
+    [data-testid="stSidebar"] {
+        background-color: #232323 !important;
+    }
+    
+    /* Sidebar text color */
+    [data-testid="stSidebar"] * {
+        color: #ecf0f1 !important;
+    }
+    
+    /* Button styling */
+    .stButton>button {
+        background-color: #3498db !important;
+        color: white !important;
+        border-radius: 8px !important;
+        padding: 10px 24px !important;
+        font-size: 16px !important;
+        font-weight: 500 !important;
+        border: none !important;
+        transition: all 0.3s ease;
+        width: 100%;
+    }
+    
+    .stButton>button:hover {
+        background-color: #2980b9 !important;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    /* Input field styling */
+    .stTextInput>div>div>input, .stTextArea>div>div>textarea {
+        border-radius: 8px !important;
+        padding: 10px !important;
+        border: 1px solid #dfe6e9 !important;
+    }
+    
+    /* Card styling for saved content */
     .card {
-        background: white;
+        background-color: white;
         border-radius: 10px;
         padding: 20px;
         margin-bottom: 20px;
         box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     }
     
-    /* Button enhancements */
-    .stButton>button {
-        background: #4a89dc !important;
-        transition: all 0.3s !important;
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+        width: 8px;
     }
-    .stButton>button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: #3498db;
+        border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        background: #2980b9;
+    }
+    
+    /* Logout button container */
+    .logout-container {
+        position: fixed;
+        top: 15px;
+        right: 20px;
+        z-index: 9999;
+    }
+    
+    /* Logout button styling */
+    .logout-button {
+        background-color: #e74c3c !important;
+        color: white !important;
+        border: none !important;
+        padding: 10px 20px !important;
+        font-size: 16px !important;
+        font-weight: bold !important;
+        border-radius: 8px !important;
+        cursor: pointer !important;
+        transition: 0.3s !important;
+        margin-top: 25px;
+    }
+    
+    .logout-button:hover {
+        background-color: #c0392b !important;
+    }
+    
+    /* Main content container */
+    .main-content {
+        
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
     }
     </style>
     """, unsafe_allow_html=True)
