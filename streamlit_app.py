@@ -214,14 +214,18 @@ def extract_transcript_details(youtube_url):
         for lang in ['en', 'hi']:
             try:
                 transcript = transcript_list.find_transcript([lang])
-                return " ".join([t['text'] for t in transcript.fetch()])
+                # Properly access transcript text using the correct method
+                transcript_text = " ".join([t.text for t in transcript.fetch()])
+                return transcript_text
             except NoTranscriptFound:
                 continue
         
         # If no direct match, find translatable transcript
         for transcript in transcript_list:
             if transcript.is_translatable:
-                return " ".join([t['text'] for t in transcript.translate('en').fetch()])
+                translated = transcript.translate('en').fetch()
+                transcript_text = " ".join([t.text for t in translated])
+                return transcript_text
         
         return "No English or translatable transcripts found"
     
