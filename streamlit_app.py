@@ -436,8 +436,18 @@ def main_app_page():
     set_custom_css()
     
     # Logout button
-    if st.button("Logout", key="logout_btn"):
+    st.markdown("""
+    <div class="logout-container">
+        <form>
+            <button class="logout-button" formaction="?logout=true" type="submit">Logout</button>
+        </form>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Handle logout
+    if st.query_params.get("logout"):
         st.session_state.clear()
+        st.experimental_set_query_params()  # Clear all query parameters
         st.rerun()
     
     # Sidebar navigation
