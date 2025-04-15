@@ -24,10 +24,12 @@ genai.configure(api_key=API_KEY)
 def connect_db():
     try:
         return mysql.connector.connect(
-            host="localhost",  
-            user="root",       
-            password="root",
-            database="youtube_summarizer"
+            connection = mysql.connector.connect(
+            host="sql305.infinityfree.com",
+            user="if0_38757634",
+            password="miDebQzfNS46c",
+            database="if0_38757634_youtube_summaries",
+            port=3306
         )
     except mysql.connector.Error as e:
         st.error(f"Database connection error: {str(e)}")
