@@ -1,1 +1,7 @@
+youtube_transcript_api
 streamlit
+google-generativeai
+python-dotenv
+pathlib
+fpdf
+mysql-connector-python
