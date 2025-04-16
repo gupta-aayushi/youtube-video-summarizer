@@ -524,11 +524,22 @@ def render_library():
             <div class='card'>
                 <h3>{item['video_title']}</h3>
                 <p><small>{item['summary_type']} • {item['created_at'].strftime('%b %d, %Y')}</small></p>
+                <div style="margin-top: 15px;">
+                    {item['content'][:500]}...  <!-- Show preview -->
+                </div>
             </div>
             """, unsafe_allow_html=True)
             
-            with st.expander("View Content", expanded=False):
-                st.markdown(item['content'])
+            with st.expander("View Full Content", expanded=False):
+                # Use a container with proper styling for the full content
+                st.markdown(f"""
+                <div style="background-color: rgba(255, 255, 255, 0.9); 
+                            padding: 15px; 
+                            border-radius: 8px;
+                            color: #333333;">
+                    {item['content']}
+                </div>
+                """, unsafe_allow_html=True)
             
             if st.button("Delete", key=f"del_{item['id']}"):
                 if delete_saved_content(item['id'], st.session_state.user_id):
