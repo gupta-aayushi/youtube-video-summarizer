@@ -319,7 +319,7 @@ def set_custom_css():
     
     /* Card styling for saved content */
     .card {
-        background-color: black;
+        background-color: black !important;
         border-radius: 10px;
         padding: 20px;
         margin-bottom: 20px;
