@@ -319,11 +319,12 @@ def set_custom_css():
     
     /* Card styling for saved content */
     .card {
-        background-color: black;
+        background-color: rgba(255, 255, 255, 0.9);
         border-radius: 10px;
         padding: 20px;
         margin-bottom: 20px;
         box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        color: #333333 !important;
     }
     
     /* Custom scrollbar */
@@ -524,11 +525,11 @@ def render_library():
             <div class='card'>
                 <h3>{item['video_title']}</h3>
                 <p><small>{item['summary_type']} • {item['created_at'].strftime('%b %d, %Y')}</small></p>
-                <div style='margin-top: 10px;'>
-                    {item['content'][:200]}...
-                </div>
             </div>
             """, unsafe_allow_html=True)
+            
+            with st.expander("View Content", expanded=False):
+                st.markdown(item['content'])
             
             if st.button("Delete", key=f"del_{item['id']}"):
                 if delete_saved_content(item['id'], st.session_state.user_id):
