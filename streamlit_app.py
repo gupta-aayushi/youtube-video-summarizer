@@ -524,17 +524,16 @@ def render_library():
             <div class='card'>
                 <h3>{item['video_title']}</h3>
                 <p><small>{item['summary_type']} • {item['created_at'].strftime('%b %d, %Y')}</small></p>
-                <div style='margin-top: 10px;'>
-                    {item['content'][:200]}...
-                </div>
             </div>
             """, unsafe_allow_html=True)
+            
+            with st.expander("View Content", expanded=False):
+                st.markdown(item['content'])
             
             if st.button("Delete", key=f"del_{item['id']}"):
                 if delete_saved_content(item['id'], st.session_state.user_id):
                     time.sleep(0.5)
                     st.rerun()
-
 # =============================================
 # Main App Flow
 # =============================================
