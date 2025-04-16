@@ -214,7 +214,6 @@ def extract_transcript_details(youtube_url):
         for lang in ['en', 'hi']:
             try:
                 transcript = transcript_list.find_transcript([lang])
-                # Properly access transcript text using the correct method
                 transcript_text = " ".join([t.text for t in transcript.fetch()])
                 return transcript_text
             except NoTranscriptFound:
@@ -274,8 +273,7 @@ def set_custom_css():
     <style>
     /* Main app styling */
     .stApp {
-        background-image: linear-gradient(rgba(255,255,255,0.1), rgba(255,255,255,0.1)), 
-                          url("https://images.unsplash.com/photo-1651575560910-b497ea4ec36f?q=80&w=2127&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+        background-image: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9));
         background-size: cover;
         background-attachment: fixed;
         background-position: center;
@@ -319,11 +317,18 @@ def set_custom_css():
     
     /* Card styling for saved content */
     .card {
-        background-color: black !important;
+        background-color: white !important;
         border-radius: 10px;
         padding: 20px;
         margin-bottom: 20px;
         box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        border: 1px solid #e0e0e0;
+        color: #333333 !important;
+    }
+    
+    /* Force text color in cards */
+    .card, .card * {
+        color: #333333 !important;
     }
     
     /* Custom scrollbar */
@@ -370,12 +375,28 @@ def set_custom_css():
         background-color: #c0392b !important;
     }
     
-    /* Main content container */
-    .main-content {
-        
-        border-radius: 10px;
-        padding: 20px;
-        margin-bottom: 20px;
+    /* Expander styling */
+    .stExpander {
+        background-color: white !important;
+        border: 1px solid #e0e0e0 !important;
+        border-radius: 8px !important;
+    }
+    
+    /* Content inside expanders */
+    .stMarkdown {
+        color: #333333 !important;
+    }
+    
+    /* Make sure Streamlit doesn't override our colors */
+    .stMarkdown p, .stMarkdown li, .stMarkdown ul, .stMarkdown ol {
+        color: #333333 !important;
+    }
+    
+    /* Add scroll for long content */
+    .stExpander .stMarkdown {
+        max-height: 500px;
+        overflow-y: auto;
+        padding-right: 10px;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -520,31 +541,38 @@ def render_library():
     
     for item in content:
         with st.container():
-            st.markdown(f"""
-            <div class='card'>
-                <h3>{item['video_title']}</h3>
-                <p><small>{item['summary_type']} • {item['created_at'].strftime('%b %d, %Y')}</small></p>
-                <div style="margin-top: 15px;">
-                    {item['content'][:500]}...  <!-- Show preview -->
+            col1, col2 = st.columns([4, 1])
+            
+            with col1:
+                st.markdown(f"""
+                <div class='card'>
+                    <h3>{item['video_title']}</h3>
+                    <p><small>{item['summary_type']} • {item['created_at'].strftime('%b %d, %Y')}</small></p>
+                    <div style="margin-top: 10px; color: #333333;">
+                        {item['content'][:300]}...
+                    </div>
                 </div>
-            </div>
-            """, unsafe_allow_html=True)
+                """, unsafe_allow_html=True)
+            
+            with col2:
+                if st.button("Delete", key=f"del_{item['id']}"):
+                    if delete_saved_content(item['id'], st.session_state.user_id):
+                        time.sleep(0.5)
+                        st.rerun()
             
             with st.expander("View Full Content", expanded=False):
-                # Use a container with proper styling for the full content
                 st.markdown(f"""
-                <div style="background-color: rgba(255, 255, 255, 0.9); 
-                            padding: 15px; 
+                <div style="background-color: white;
+                            padding: 15px;
                             border-radius: 8px;
+                            border: 1px solid #e0e0e0;
+                            max-height: 500px;
+                            overflow-y: auto;
                             color: #333333;">
                     {item['content']}
                 </div>
                 """, unsafe_allow_html=True)
-            
-            if st.button("Delete", key=f"del_{item['id']}"):
-                if delete_saved_content(item['id'], st.session_state.user_id):
-                    time.sleep(0.5)
-                    st.rerun()
+
 # =============================================
 # Main App Flow
 # =============================================
