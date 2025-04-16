@@ -319,12 +319,15 @@ def set_custom_css():
     
     /* Card styling for saved content */
     .card {
-        background-color: white;
+        background-color: white !important;
         border-radius: 10px;
         padding: 20px;
         margin-bottom: 20px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);}
-    
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        border: 1px solid #e0e0e0;
+        color: #333333 !important;
+    }
+
     /* Custom scrollbar */
     ::-webkit-scrollbar {
         width: 8px;
